@@ -212,14 +212,14 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 <div class="wrap">
 
 <header class="hero">
-  <span class="eyebrow">Research plan · updated 8 November 2026</span>
   <h1>RSI Contributions</h1>
   <p class="lede">The goal: help AI get better at improving itself, through open-source work. This page collects what the author has found so far and lays out the next steps in plain language. There are three tracks, and they support each other.</p>
+  <p class="muted" style="font-size:var(--step--1)">Updated 8 November 2026.</p>
   <nav class="toc" aria-labelledby="toc-h">
     <h2 id="toc-h">Contents</h2>
     <ol>
-      <li><a href="#start">Start here</a><span>The first three steps</span></li>
-      <li><a href="#levels">Three levels of self-improvement</a><span>What can be improved</span></li>
+      <li><a href="#background">Background</a><span>Three levels of self-improvement</span></li>
+      <li><a href="#first-steps">First steps</a><span>The three things to do first</span></li>
       <li><a href="#overview">The three tracks</a><span>Side-by-side summary</span></li>
       <li><a href="#track-a">Track A: Improve HGM</a><span>Findings and steps</span></li>
       <li><a href="#track-b">Track B: Let AI improve model weights</a><span>Two recent results and steps</span></li>
@@ -232,34 +232,21 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
   </nav>
 </header>
 
-<section id="start" aria-labelledby="start-h">
-  <div class="start">
-    <h2 id="start-h">Start here</h2>
-    <p class="muted">If you only do three things next, do these. Each one starts a track.</p>
-    <ol>
-      <li><div><span class="tag a">Track A</span><strong>Send the HGM bug report.</strong><span class="muted">Claude drafts it with the one-line fix. You review and submit it. About an hour.</span></div></li>
-      <li><div><span class="tag b">Track B</span><strong>Reproduce the weight-editing result and run one cheap control.</strong><span class="muted">The edited model and logs are public. Runs on an ordinary computer, slowly. A few days.</span></div></li>
-      <li><div><span class="tag c">Track C</span><strong>Write a one-page "is this improvement real?" checklist.</strong><span class="muted">Use it on steps 1 and 2 before believing any result, including the author's.</span></div></li>
-    </ol>
-  </div>
-</section>
-
-<section id="levels" aria-labelledby="levels-h">
-  <span class="eyebrow">Orientation</span>
-  <h2 id="levels-h">Three levels of self-improvement</h2>
+<section id="background" aria-labelledby="background-h">
+  <h2 id="background-h">Background</h2>
   <p>"Self-improvement" can mean changing three different things. Each level goes deeper than the one before. Most confusion so far came from mixing them up.</p>
   <div class="ladder">
     <div class="rung">
       <div class="lvl">1</div>
       <div class="body">
-        <div class="head"><h3>The harness</h3><span class="status ok">Working today</span><span class="tag a">Track A</span></div>
+        <div class="head"><h3>The harness</h3><span class="status ok">Working today</span></div>
         <p>The instructions, tools and workflow wrapped around a model. HGM works at this level. Gains are real but capped by how good the model is.</p>
       </div>
     </div>
     <div class="rung">
       <div class="lvl">2</div>
       <div class="body">
-        <div class="head"><h3>The model's weights</h3><span class="status early">Early results, last month</span><span class="tag b">Track B</span></div>
+        <div class="head"><h3>The model's weights</h3><span class="status early">Early results, last month</span></div>
         <p>The billions of learned numbers that make up the model itself. Two recent projects changed weights using AI: one by editing them directly, one by having the model train itself.</p>
       </div>
     </div>
@@ -271,28 +258,36 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
       </div>
     </div>
   </div>
-  <p class="muted">Track C applies to every level: it checks whether an improvement is real.</p>
+  <p class="muted">The tracks below match these levels. Track A works on level 1, Track B on level 2, and Track C checks whether an improvement at any level is real.</p>
+</section>
+
+<section id="first-steps" aria-labelledby="start-h">
+  <div class="start">
+    <h2 id="start-h">First steps</h2>
+    <p class="muted">If you only do three things next, do these. Each one starts a track.</p>
+    <ol>
+      <li><div><strong>Track A: Send the HGM bug report.</strong><span class="muted">Claude drafts it with the one-line fix. You review and submit it. About an hour.</span></div></li>
+      <li><div><strong>Track B: Reproduce the weight-editing result and run one cheap control.</strong><span class="muted">The edited model and logs are public. Runs on an ordinary computer, slowly. A few days.</span></div></li>
+      <li><div><strong>Track C: Write a one-page "is this improvement real?" checklist.</strong><span class="muted">Use it on steps 1 and 2 before believing any result, including the author's.</span></div></li>
+    </ol>
+  </div>
 </section>
 
 <section id="overview" aria-labelledby="overview-h">
-  <span class="eyebrow">Overview</span>
   <h2 id="overview-h">The three tracks</h2>
   <div class="tracks">
     <article class="track-card a">
-      <span class="tag a">Track A</span>
-      <h3>Improve HGM</h3>
+      <h3>Track A: Improve HGM</h3>
       <p>Make the harness-improvement tool more correct, and find out which part of it actually works.</p>
       <dl><dt>Cost</dt><dd>Low to medium</dd><dt>First step</dt><dd>Bug report</dd></dl>
     </article>
     <article class="track-card b">
-      <span class="tag b">Track B</span>
-      <h3>AI improves weights</h3>
+      <h3>Track B: AI improves weights</h3>
       <p>Use AI to change a model's weights, starting with direct edits on small open models.</p>
       <dl><dt>Cost</dt><dd>Low to start</dd><dt>First step</dt><dd>Reproduce a result</dd></dl>
     </article>
     <article class="track-card c">
-      <span class="tag c">Track C</span>
-      <h3>Make sure it's real</h3>
+      <h3>Track C: Make sure it's real</h3>
       <p>Build tests and tools that can tell a real improvement from luck or a gamed score.</p>
       <dl><dt>Cost</dt><dd>Mostly time</dd><dt>First step</dt><dd>Checklist</dd></dl>
     </article>
@@ -306,8 +301,7 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 </section>
 
 <section id="track-a" class="track a" aria-labelledby="a-h">
-  <span class="tag a">Track A</span>
-  <h2 id="a-h">Improve HGM</h2>
+  <h2 id="a-h">Track A: Improve HGM</h2>
   <p>Harnesses are powerful. In the HGM paper, an evolved harness took the same model (GPT-5-mini) from 53.2% to 61.4% on the coding problems it was tuned on, and from 34.8% to 40.1% on new problems it had never seen.</p>
   <h3>What the author found</h3>
   <ul class="findings">
@@ -327,14 +321,12 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 </section>
 
 <section id="track-b" class="track b" aria-labelledby="b-h">
-  <span class="tag b">Track B</span>
-  <h2 id="b-h">Let AI improve model weights</h2>
+  <h2 id="b-h">Track B: Let AI improve model weights</h2>
   <p>You were right that this can be cheap. Two results from the last month show two different routes.</p>
   <div class="studies">
     <article class="study">
-      <span class="eyebrow">Route 1 · Direct editing</span>
       <h3>Weight-space programming</h3>
-      <p class="muted" style="font-size:var(--step--1)">MIT CSAIL, 2 Nov 2026</p>
+      <p class="muted" style="font-size:var(--step--1)">Route 1: direct editing · MIT CSAIL, 2 Nov 2026</p>
       <p>A frontier model (the post calls it GPT-6 Astra) read the weights of a small open model, Qwen3.5-0.8B, and edited them directly. No training and no GPU. It changed 0.016% of the weights after 50 practice runs.</p>
       <div class="nums" aria-label="Results">
         <div><span>MATH-500</span><span>7.9% → 48.1%</span></div>
@@ -344,9 +336,8 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
       <p class="caveat">Scored on benchmarks the editor never saw. Most of the gain came from stopping the model from looping: answers stuck at the length limit fell from 93% to 33%. On a second model, Gemma 3 270M, it couldn't improve anything. The post's authors call these very early results.</p>
     </article>
     <article class="study">
-      <span class="eyebrow">Route 2 · Self-training</span>
       <h3>Terminal-RSI</h3>
-      <p class="muted" style="font-size:var(--step--1)">arXiv 2610.22192, Oct 2026</p>
+      <p class="muted" style="font-size:var(--step--1)">Route 2: self-training · arXiv 2610.22192, Oct 2026</p>
       <p>A 27-billion-parameter open model (Qwen3.8-27B) turns its own verified successes into training data, then trains itself with reinforcement learning, in repeated rounds.</p>
       <div class="nums" aria-label="Results">
         <div><span>Terminal-Bench 2.1</span><span>51.7% → 86.5%</span></div>
@@ -370,8 +361,7 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 </section>
 
 <section id="track-c" class="track c" aria-labelledby="c-h">
-  <span class="tag c">Track C</span>
-  <h2 id="c-h">Make sure improvements are real</h2>
+  <h2 id="c-h">Track C: Make sure improvements are real</h2>
   <p>Every self-improving system grades itself against tests. When it's pushed hard, it finds ways to score higher without getting better. Tracks A and B both need a grader that can't be fooled.</p>
   <h3>What the author found</h3>
   <ul class="findings">
@@ -390,7 +380,6 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 </section>
 
 <section id="rules" aria-labelledby="rules-h">
-  <span class="eyebrow">How the author works</span>
   <h2 id="rules-h">Ground rules</h2>
   <p>These make results believable. They also keep a self-improving loop something you can inspect. Claude will help with all three tracks on these terms.</p>
   <ul class="rules">
@@ -402,7 +391,6 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 </section>
 
 <section id="details" aria-labelledby="details-h">
-  <span class="eyebrow">Reference</span>
   <h2 id="details-h">Details behind the findings</h2>
   <h3>The HGM paper: what holds up</h3>
   <div class="table-wrap">
@@ -450,7 +438,6 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
 </section>
 
 <section id="glossary" aria-labelledby="glossary-h">
-  <span class="eyebrow">Words used here</span>
   <h2 id="glossary-h">Glossary</h2>
   <dl class="gloss">
     <dt>Harness</dt><dd>The program around an AI model: its instructions, tools and step-by-step workflow.</dd>
