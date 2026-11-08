@@ -50,6 +50,7 @@ img { max-width: 100%; }
   color-scheme: dark;
 }
 
+html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
 body {
   background: var(--bg); color: var(--ink);
@@ -78,8 +79,14 @@ section { display: flex; flex-direction: column; gap: 20px; }
 /* Hero */
 header.hero { display: flex; flex-direction: column; gap: 16px; }
 header.hero .lede { font-size: var(--step-1); line-height: 1.5; color: var(--ink); max-width: 60ch; }
-nav.jump { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--step--1); }
-nav.jump a { color: var(--muted); }
+nav.toc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+nav.toc h2 { font-size: var(--step-2); }
+nav.toc ol { margin: 0; padding-left: 1.6rem; columns: 2 16rem; column-gap: 32px; }
+nav.toc li { break-inside: avoid; padding: 5px 0; }
+nav.toc li::marker { color: var(--muted); font-family: var(--font-mono); font-size: var(--step--1); }
+nav.toc li a { font-weight: 600; }
+nav.toc li span { display: block; font-size: var(--step--1); color: var(--muted); }
+section[id] { scroll-margin-top: 16px; }
 
 /* Start here */
 .start {
@@ -208,8 +215,20 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
   <span class="eyebrow">Research plan · updated 8 November 2026</span>
   <h1>RSI Contributions</h1>
   <p class="lede">The goal: help AI get better at improving itself, through open-source work. This page collects what the author has found so far and lays out the next steps in plain language. There are three tracks, and they support each other.</p>
-  <nav class="jump" aria-label="Sections">
-    <a href="#start">Start here</a><a href="#levels">Three levels</a><a href="#track-a">Track A · HGM</a><a href="#track-b">Track B · Weights</a><a href="#track-c">Track C · Checks</a><a href="#rules">Ground rules</a><a href="#details">Details</a><a href="#glossary">Glossary</a>
+  <nav class="toc" aria-labelledby="toc-h">
+    <h2 id="toc-h">Contents</h2>
+    <ol>
+      <li><a href="#start">Start here</a><span>The first three steps</span></li>
+      <li><a href="#levels">Three levels of self-improvement</a><span>What can be improved</span></li>
+      <li><a href="#overview">The three tracks</a><span>Side-by-side summary</span></li>
+      <li><a href="#track-a">Track A: Improve HGM</a><span>Findings and steps</span></li>
+      <li><a href="#track-b">Track B: Let AI improve model weights</a><span>Two recent results and steps</span></li>
+      <li><a href="#track-c">Track C: Make sure improvements are real</a><span>Findings and steps</span></li>
+      <li><a href="#rules">Ground rules</a><span>Rules that keep results believable</span></li>
+      <li><a href="#details">Details behind the findings</a><span>Tables on the paper, code and simulation</span></li>
+      <li><a href="#glossary">Glossary</a><span>Terms in plain language</span></li>
+      <li><a href="#sources">Sources</a><span>Links to papers and code</span></li>
+    </ol>
   </nav>
 </header>
 
@@ -255,7 +274,7 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
   <p class="muted">Track C applies to every level: it checks whether an improvement is real.</p>
 </section>
 
-<section aria-labelledby="overview-h">
+<section id="overview" aria-labelledby="overview-h">
   <span class="eyebrow">Overview</span>
   <h2 id="overview-h">The three tracks</h2>
   <div class="tracks">
@@ -445,7 +464,7 @@ ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: col
   </dl>
 </section>
 
-<section aria-labelledby="sources-h">
+<section id="sources" aria-labelledby="sources-h">
   <h2 id="sources-h">Sources</h2>
   <ul class="sources">
     <li><a href="https://arxiv.org/abs/2510.21614">Huxley–Gödel Machine paper (arXiv 2510.21614)</a> and <a href="https://github.com/metauto-ai/HGM">HGM code</a></li>
