@@ -3,485 +3,139 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Plain-language plan for three tracks: improving HGM, using AI to edit model weights, and checking that improvements are real.">
-<style>
-:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
-body { margin: 0; }
-img { max-width: 100%; }
-[hidden] { display: none !important; }
-</style>
+<meta name="description" content="Small open-source contributions toward AI improving itself: improving HGM, AI editing model weights, and checking that improvements are real.">
 <title>RSI Contributions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Public+Sans:wght@400;600&display=swap">
 <style>
-/* Layout: one reading column; three color-coded tracks (A harness, B weights, C checks) that recur through the page. */
 :root {
-  --bg: #f5f7fa;
-  --surface: #ffffff;
-  --ink: #17202e;
-  --muted: #566173;
-  --line: #dce2ea;
-  --a: #3550b5;      --a-soft: #e9edfb;
-  --b: #9a5a0c;      --b-soft: #fbf0e1;
-  --c: #2b7553;      --c-soft: #e4f3eb;
-  --warn: #8a5a00;
+  --bg: #f6f7f9; --surface: #ffffff; --ink: #17202e; --muted: #5a6475; --line: #dde2e9; --accent: #3550b5;
   --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --font-body: "Public Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --step--1: 0.84rem; --step-0: 1rem; --step-1: 1.2rem; --step-2: 1.5rem; --step-3: 2.1rem; --step-4: 2.8rem;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #10141b; --surface: #171d26; --ink: #e6eaf1; --muted: #9ba6b6; --line: #29313e;
-    --a: #93a6ff; --a-soft: #1d2440;
-    --b: #e2a556; --b-soft: #33261a;
-    --c: #72cfa0; --c-soft: #16302a;
-    --warn: #e8b85a;
-    color-scheme: dark;
-  }
+  :root:not([data-theme="light"]) { --bg: #10141b; --surface: #171d26; --ink: #e6eaf1; --muted: #9ba6b6; --line: #29313e; --accent: #93a6ff; color-scheme: dark; }
 }
-:root[data-theme="dark"] {
-  --bg: #10141b; --surface: #171d26; --ink: #e6eaf1; --muted: #9ba6b6; --line: #29313e;
-  --a: #93a6ff; --a-soft: #1d2440;
-  --b: #e2a556; --b-soft: #33261a;
-  --c: #72cfa0; --c-soft: #16302a;
-  --warn: #e8b85a;
-  color-scheme: dark;
-}
+:root[data-theme="dark"] { --bg: #10141b; --surface: #171d26; --ink: #e6eaf1; --muted: #9ba6b6; --line: #29313e; --accent: #93a6ff; color-scheme: dark; }
 
 html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
-body {
-  background: var(--bg); color: var(--ink);
-  font-family: var(--font-body); font-size: var(--step-0); line-height: 1.6;
-}
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 1rem; line-height: 1.6; }
 .wrap {
-  max-width: 820px; margin: 0 auto;
+  max-width: 720px; margin: 0 auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 40px 72px;
-  display: flex; flex-direction: column; gap: 56px;
+  display: flex; flex-direction: column; gap: 48px;
 }
-h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
-h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.02em; }
-h2 { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.01em; }
-h3 { font-size: var(--step-1); font-weight: 700; }
-p { margin: 0; max-width: 66ch; }
-a { color: var(--a); text-underline-offset: 2px; }
-a:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--a); outline-offset: 2px; border-radius: 3px; }
-.eyebrow { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+header { display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: 2.6rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.8rem; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; margin-top: 8px; }
+p, ul { margin: 0; max-width: 66ch; }
+ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 8px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+section { display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 16px; }
 .muted { color: var(--muted); }
-.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-section { display: flex; flex-direction: column; gap: 20px; }
-.stack { display: flex; flex-direction: column; gap: 12px; }
-
-/* Hero */
-header.hero { display: flex; flex-direction: column; gap: 16px; }
-nav.toc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-nav.toc h2 { font-size: var(--step-2); }
-nav.toc ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
-nav.toc li a { font-weight: 600; }
-section[id] { scroll-margin-top: 16px; }
-
-/* Start here */
-.start {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  padding: 24px; display: flex; flex-direction: column; gap: 16px;
-}
-.start ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; counter-reset: s; }
-.start li { display: grid; grid-template-columns: 2rem 1fr; gap: 12px; align-items: start; counter-increment: s; }
-.start li::before {
-  content: counter(s); font-family: var(--font-display); font-weight: 700; font-size: var(--step-1);
-  width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center;
-  background: var(--bg); border: 1px solid var(--line);
-}
-.start li > div { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-
-/* Tags for tracks */
-.tag {
-  display: inline-flex; align-items: center; gap: 6px; width: fit-content;
-  font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
-  padding: 2px 8px; border-radius: 4px;
-}
-.tag.a { background: var(--a-soft); color: var(--a); }
-.tag.b { background: var(--b-soft); color: var(--b); }
-.tag.c { background: var(--c-soft); color: var(--c); }
-
-/* Ladder */
-.ladder { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
-.rung { display: grid; grid-template-columns: 4.5rem 1fr; border-top: 1px solid var(--line); }
-.rung:first-child { border-top: 0; }
-.rung .lvl {
-  font-family: var(--font-display); font-weight: 700; font-size: var(--step-2);
-  display: grid; place-items: center; border-right: 1px solid var(--line); color: var(--muted);
-}
-.rung .body { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.rung .head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
-.status { font-size: var(--step--1); font-weight: 600; }
-.status::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; background: currentColor; vertical-align: 1px; }
-.status.ok { color: var(--c); }
-.status.early { color: var(--b); }
-.status.none { color: var(--muted); }
-
-/* Track overview grid */
-.tracks { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
-.track-card {
-  background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--tc);
-  border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0;
-}
-.track-card.a { --tc: var(--a); } .track-card.b { --tc: var(--b); } .track-card.c { --tc: var(--c); }
-.track-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: var(--step--1); }
-.track-card dt { color: var(--muted); }
-.track-card dd { margin: 0; }
-.fit { font-size: var(--step--1); color: var(--muted); }
-
-/* Track detail sections */
-.track { border-left: 4px solid var(--tc); padding-left: 20px; }
-.track.a { --tc: var(--a); } .track.b { --tc: var(--b); } .track.c { --tc: var(--c); }
-.track ul.findings { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 8px; max-width: 66ch; }
-.callout { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
-
-.studies { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-.study { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.study .nums { display: flex; flex-direction: column; gap: 4px; font-size: var(--step--1); }
-.study .nums div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 3px; }
-.study .nums span:last-child { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.study .caveat { font-size: var(--step--1); color: var(--muted); }
-
-/* Checklists */
-.steps { display: flex; flex-direction: column; gap: 10px; }
-.steps-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.progress { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); }
-.step {
-  display: grid; grid-template-columns: 1.3rem 1fr; gap: 12px; align-items: start;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px;
-}
-.step input { width: 1.1rem; height: 1.1rem; margin-top: 3px; accent-color: var(--tc); }
-.step label { min-width: 0; display: flex; flex-direction: column; gap: 2px; cursor: pointer; }
-.step label strong { font-weight: 600; }
-.step label span { font-size: var(--step--1); color: var(--muted); }
-.step:has(input:checked) label strong { text-decoration: line-through; color: var(--muted); }
-.needs { font-size: var(--step--1); color: var(--muted); max-width: 66ch; }
-.needs strong { color: var(--ink); }
-
-/* Fit diagram */
-.fitmap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.fitmap .box { border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.fitmap .box.a { background: var(--a-soft); } .fitmap .box.b { background: var(--b-soft); }
-.fitmap .box.c { background: var(--c-soft); grid-column: 1 / -1; }
-.fitmap .box strong { font-family: var(--font-display); }
-.fitmap .arrow { grid-column: 1 / -1; text-align: center; font-size: var(--step--1); color: var(--muted); font-family: var(--font-mono); }
-
-/* Rules */
-ul.rules { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
-ul.rules li { display: grid; grid-template-columns: 1.4rem 1fr; gap: 10px; }
-ul.rules li::before { content: "✓"; font-weight: 700; color: var(--c); }
-
-/* Tables */
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
-th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-top: 1px solid var(--line); }
-thead th { border-top: 0; font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
-td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-td.pos { color: var(--c); font-weight: 600; }
-td.neg { color: var(--warn); }
-
-dl.gloss { margin: 0; display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: 10px 18px; }
-dl.gloss dt { font-weight: 600; }
-dl.gloss dd { margin: 0; color: var(--ink); max-width: 60ch; }
-
-ul.sources { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 6px; font-size: var(--step--1); }
-
-@media (max-width: 560px) {
-  h1 { font-size: 2.2rem; } h2 { font-size: 1.7rem; }
-  .rung { grid-template-columns: 3rem 1fr; }
-  .fitmap { grid-template-columns: 1fr; }
-  dl.gloss { grid-template-columns: 1fr; gap: 2px; }
-  dl.gloss dd { margin-bottom: 10px; }
-  .track { padding-left: 14px; }
-}
-@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+nav.toc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+nav.toc h2 { font-size: 1.3rem; }
+nav.toc ul { padding: 0; list-style: none; }
+nav.toc a { font-weight: 600; }
+@media (max-width: 560px) { h1 { font-size: 2.1rem; } h2 { font-size: 1.5rem; } nav.toc { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap">
 
-<header class="hero">
+<header>
   <h1>RSI Contributions</h1>
   <nav class="toc" aria-labelledby="toc-h">
     <h2 id="toc-h">Table of Contents</h2>
     <ul>
       <li><a href="#background">Background</a></li>
-      <li><a href="#first-steps">First steps</a></li>
-      <li><a href="#overview">The three tracks</a></li>
       <li><a href="#track-a">Track A: Improve HGM</a></li>
       <li><a href="#track-b">Track B: Let AI improve model weights</a></li>
-      <li><a href="#track-c">Track C: Make sure improvements are real</a></li>
+      <li><a href="#track-c">Track C: Check that improvements are real</a></li>
       <li><a href="#rules">Ground rules</a></li>
-      <li><a href="#details">Details behind the findings</a></li>
-      <li><a href="#glossary">Glossary</a></li>
-      <li><a href="#sources">Sources</a></li>
     </ul>
   </nav>
 </header>
 
 <section id="background" aria-labelledby="background-h">
   <h2 id="background-h">Background</h2>
-  <p>The goal is to help AI get better at improving itself, through open-source work. This page collects what the author has found so far and the next steps.</p>
-  <p>"Self-improvement" can mean changing three different things. Each level goes deeper than the one before. Most confusion so far came from mixing them up.</p>
-  <div class="ladder">
-    <div class="rung">
-      <div class="lvl">1</div>
-      <div class="body">
-        <div class="head"><h3>The harness</h3><span class="status ok">Working today</span></div>
-        <p>The instructions, tools and workflow wrapped around a model. HGM works at this level. Gains are real but capped by how good the model is.</p>
-      </div>
-    </div>
-    <div class="rung">
-      <div class="lvl">2</div>
-      <div class="body">
-        <div class="head"><h3>The model's weights</h3><span class="status early">Early results, last month</span></div>
-        <p>The billions of learned numbers that make up the model itself. Two recent projects changed weights using AI: one by editing them directly, one by having the model train itself.</p>
-      </div>
-    </div>
-    <div class="rung">
-      <div class="lvl">3</div>
-      <div class="body">
-        <div class="head"><h3>The improvement process</h3><span class="status none">Not shown yet</span></div>
-        <p>The loop rewrites its own rules for what counts as progress and how to look for it. Mostly theory. HGM's rules, for example, are written by people and stay fixed.</p>
-      </div>
-    </div>
-  </div>
-  <p class="muted">The tracks below match these levels. Track A works on level 1, Track B on level 2, and Track C checks whether an improvement at any level is real.</p>
+  <p>RSI (recursive self-improvement) means AI improving itself. This page lists small open-source contributions that could advance it. AI can improve two things:</p>
+  <ul>
+    <li><strong>The harness:</strong> the instructions, tools and workflow around a model. Track A works here.</li>
+    <li><strong>The weights:</strong> the learned numbers that make up the model itself. Track B works here.</li>
+  </ul>
+  <p>Track C checks that improvements at either level are real.</p>
 </section>
 
-<section id="first-steps" aria-labelledby="start-h">
-  <div class="start">
-    <h2 id="start-h">First steps</h2>
-    <p class="muted">If you only do three things next, do these. Each one starts a track.</p>
-    <ol>
-      <li><div><strong>Track A: Send the HGM bug report.</strong><span class="muted">Claude drafts it with the one-line fix. You review and submit it. About an hour.</span></div></li>
-      <li><div><strong>Track B: Reproduce the weight-editing result and run one cheap control.</strong><span class="muted">The edited model and logs are public. Runs on an ordinary computer, slowly. A few days.</span></div></li>
-      <li><div><strong>Track C: Write a one-page "is this improvement real?" checklist.</strong><span class="muted">Use it on steps 1 and 2 before believing any result, including the author's.</span></div></li>
-    </ol>
-  </div>
-</section>
-
-<section id="overview" aria-labelledby="overview-h">
-  <h2 id="overview-h">The three tracks</h2>
-  <div class="tracks">
-    <article class="track-card a">
-      <h3>Track A: Improve HGM</h3>
-      <p>Make the harness-improvement tool more correct, and find out which part of it actually works.</p>
-      <dl><dt>Cost</dt><dd>Low to medium</dd><dt>First step</dt><dd>Bug report</dd></dl>
-    </article>
-    <article class="track-card b">
-      <h3>Track B: AI improves weights</h3>
-      <p>Use AI to change a model's weights, starting with direct edits on small open models.</p>
-      <dl><dt>Cost</dt><dd>Low to start</dd><dt>First step</dt><dd>Reproduce a result</dd></dl>
-    </article>
-    <article class="track-card c">
-      <h3>Track C: Make sure it's real</h3>
-      <p>Build tests and tools that can tell a real improvement from luck or a gamed score.</p>
-      <dl><dt>Cost</dt><dd>Mostly time</dd><dt>First step</dt><dd>Checklist</dd></dl>
-    </article>
-  </div>
-  <div class="fitmap" aria-label="How the tracks connect">
-    <div class="box a"><strong>A · Harness</strong><span class="fit">Makes the wrapper around a model better.</span></div>
-    <div class="box b"><strong>B · Weights</strong><span class="fit">Makes the model itself better.</span></div>
-    <div class="arrow">both are checked by ↓</div>
-    <div class="box c"><strong>C · Checks</strong><span class="fit">Tells you whether A and B really made things better. Start it small, alongside the other two.</span></div>
-  </div>
-</section>
-
-<section id="track-a" class="track a" aria-labelledby="a-h">
+<section id="track-a" aria-labelledby="a-h">
   <h2 id="a-h">Track A: Improve HGM</h2>
-  <p>Harnesses are powerful. In the HGM paper, an evolved harness took the same model (GPT-5-mini) from 53.2% to 61.4% on the coding problems it was tuned on, and from 34.8% to 40.1% on new problems it had never seen.</p>
-  <h3>What the author found</h3>
-  <ul class="findings">
-    <li>The paper's wins over other methods come down to 1 or 2 problems, from one run of each method. That could easily be luck.</li>
-    <li>The current public code has a bug. It overwrites each version's own scores with its descendants' scores, and those records keep growing until the program would likely run out of memory. The fix is one line.</li>
-    <li>The first public version, with its default settings, doesn't do what the paper describes. It ends up choosing versions by their own score, the very method the paper argues against.</li>
-    <li>In a simulation, most of HGM's benefit came from testing each version a few problems at a time and dropping weak ones early. The headline idea, judging a version by its descendants, helped clearly in only 1 of 6 test worlds.</li>
+  <p><a href="https://arxiv.org/abs/2510.21614">HGM</a> (Huxley–Gödel Machine) is an <a href="https://github.com/metauto-ai/HGM">open-source system</a> in which an AI repeatedly rewrites its own coding harness.</p>
+  <h3>Findings</h3>
+  <ul>
+    <li>The current code has a bug that corrupts each version's scores and can exhaust memory. The fix is one line.</li>
+    <li>The paper's wins over other methods come down to 1 or 2 problems from single runs, which could be luck.</li>
+    <li>In a simplified simulation, most of HGM's benefit came from testing each version a few problems at a time. The paper's main idea, judging a version by its descendants, helped in only 1 of 6 scenarios.</li>
   </ul>
-  <div class="steps" data-track="a">
-    <div class="steps-head"><h3>Steps</h3><span class="progress" data-progress="a"></span></div>
-    <div class="step"><input type="checkbox" id="a1" data-step="a"><label for="a1"><strong>Send the bug report and fix</strong><span>Claude drafts it. You submit it. Also ask the HGM authors which settings produced the paper's numbers.</span></label></div>
-    <div class="step"><input type="checkbox" id="a2" data-step="a"><label for="a2"><strong>Run the fair test nobody has run</strong><span>HGM's "judge by descendants" rule against "judge by own score," everything else the same, repeated several times. Open models keep the cost down.</span></label></div>
-    <div class="step"><input type="checkbox" id="a3" data-step="a"><label for="a3"><strong>Carry the part that works into other tools</strong><span>Try test-a-little-at-a-time scoring in OpenEvolve, which currently tests in fixed pass/fail stages.</span></label></div>
-    <div class="step"><input type="checkbox" id="a4" data-step="a"><label for="a4"><strong>Publish one large run in full detail</strong><span>Every version and every test result. Then anyone can compare methods without re-running expensive AI work.</span></label></div>
-  </div>
-  <p class="needs"><strong>Needs:</strong> an AI API key or a self-hosted open model, Docker, and a budget for AI usage. The HGM authors spent about $5,000 on all of their experiments combined.</p>
+  <h3>Steps</h3>
+  <ul>
+    <li>Report the bug and fix to the HGM authors. It is <a href="https://github.com/jdrowne/HGM/issues/11">filed on a fork</a> but not yet sent to them.</li>
+    <li>Compare judging by descendants against judging by own score, with several runs of each.</li>
+    <li>Try testing a few problems at a time in <a href="https://github.com/algorithmicsuperintelligence/openevolve">OpenEvolve</a>, a similar open-source tool.</li>
+    <li>Publish every record from one full run, so others can compare methods without rerunning it.</li>
+  </ul>
+  <p class="muted">Needs: AI model access, Docker, and a budget. The HGM authors spent about $5,000 in total.</p>
 </section>
 
-<section id="track-b" class="track b" aria-labelledby="b-h">
+<section id="track-b" aria-labelledby="b-h">
   <h2 id="b-h">Track B: Let AI improve model weights</h2>
-  <p>You were right that this can be cheap. Two results from the last month show two different routes.</p>
-  <div class="studies">
-    <article class="study">
-      <h3>Weight-space programming</h3>
-      <p class="muted" style="font-size:var(--step--1)">Route 1: direct editing · MIT CSAIL, 2 Nov 2026</p>
-      <p>A frontier model (the post calls it GPT-6 Astra) read the weights of a small open model, Qwen3.5-0.8B, and edited them directly. No training and no GPU. It changed 0.016% of the weights after 50 practice runs.</p>
-      <div class="nums" aria-label="Results">
-        <div><span>MATH-500</span><span>7.9% → 48.1%</span></div>
-        <div><span>GSM8K</span><span>13.8% → 67.1%</span></div>
-        <div><span>IFEval</span><span>21.0% → 62.3%</span></div>
-      </div>
-      <p class="caveat">Scored on benchmarks the editor never saw. Most of the gain came from stopping the model from looping: answers stuck at the length limit fell from 93% to 33%. On a second model, Gemma 3 270M, it couldn't improve anything. The post's authors call these very early results.</p>
-    </article>
-    <article class="study">
-      <h3>Terminal-RSI</h3>
-      <p class="muted" style="font-size:var(--step--1)">Route 2: self-training · arXiv 2610.22192, Oct 2026</p>
-      <p>A 27-billion-parameter open model (Qwen3.8-27B) turns its own verified successes into training data, then trains itself with reinforcement learning, in repeated rounds.</p>
-      <div class="nums" aria-label="Results">
-        <div><span>Terminal-Bench 2.1</span><span>51.7% → 86.5%</span></div>
-        <div><span>Terminal-Bench 4.0</span><span>0.0% → 19.8%</span></div>
-      </div>
-      <p class="caveat">This is real training, which for a model this size likely needs a multi-GPU server (an estimate; the page doesn't say). The page also doesn't say whether training tasks were kept separate from test tasks.</p>
-    </article>
-  </div>
-  <div class="callout">
-    <strong>What this means</strong>
-    <p>Direct editing is cheap and new. Self-training works but costs more. Neither one is yet a model improving itself: in the first, a large model edits a different, much smaller one.</p>
-  </div>
-  <div class="steps" data-track="b">
-    <div class="steps-head"><h3>Steps</h3><span class="progress" data-progress="b"></span></div>
-    <div class="step"><input type="checkbox" id="b1" data-step="b"><label for="b1"><strong>Reproduce the editing result</strong><span>The edited model and full logs are public. Re-score it yourself on problems that weren't used for editing.</span></label></div>
-    <div class="step"><input type="checkbox" id="b2" data-step="b"><label for="b2"><strong>Run the cheap control</strong><span>Does a simple setting that discourages repetition give a similar boost with no weight edit? If so, the edit mostly fixed a flaw in the small model rather than adding ability.</span></label></div>
-    <div class="step"><input type="checkbox" id="b3" data-step="b"><label for="b3"><strong>Try another model and another skill</strong><span>The Gemma failure means nobody knows yet when this works. Claude can act as the editor here.</span></label></div>
-    <div class="step"><input type="checkbox" id="b4" data-step="b"><label for="b4"><strong>Move toward real self-improvement</strong><span>A model editing a copy of itself. Do this after the Track C checks exist, with a person approving each change that gets kept.</span></label></div>
-  </div>
-  <p class="needs"><strong>Needs:</strong> a computer that can run a 0.8B model (a recent Mac can, though long math answers are slow), plus the public logs and model.</p>
+  <h3>Findings</h3>
+  <p>Two recent results show this can be cheap:</p>
+  <ul>
+    <li><a href="https://rikiyat.github.io/blog/weight-space-programming/">Weight-space programming</a> (MIT CSAIL, November 2026): a frontier AI directly edited 0.016% of the weights of a small open model, Qwen3.5-0.8B, with no training and no GPU. Its score on unseen math problems rose from 7.9% to 48.1%, mostly because the model stopped repeating itself. The same approach failed on a second model.</li>
+    <li><a href="https://jyyang26.github.io/terminal-rsi/">Terminal-RSI</a> (October 2026): a 27-billion-parameter open model trained itself on its own verified successes. Its score on a test of command-line tasks rose from 51.7% to 86.5%. This needs real training hardware, and the paper doesn't say whether test tasks were kept out of training.</li>
+  </ul>
+  <h3>Steps</h3>
+  <ul>
+    <li>Reproduce the editing result. The <a href="https://huggingface.co/RikiyaT/Qwen3.5-0.8B-weight-space-programming">edited model</a> and <a href="https://github.com/RikiyaT/lm_understand-logs">logs</a> are public, and it runs on an ordinary computer.</li>
+    <li>Check whether a setting that discourages repetition gives the same gain without editing any weights.</li>
+    <li>Try the method on another model and another skill.</li>
+    <li>Then have a model edit a copy of itself, once Track C is in place.</li>
+  </ul>
 </section>
 
-<section id="track-c" class="track c" aria-labelledby="c-h">
-  <h2 id="c-h">Track C: Make sure improvements are real</h2>
-  <p>Every self-improving system grades itself against tests. When it's pushed hard, it finds ways to score higher without getting better. Tracks A and B both need a grader that can't be fooled.</p>
-  <h3>What the author found</h3>
-  <ul class="findings">
-    <li>In the simulation, the winning version's score on the tests it was chosen with overstated its true quality by 4 to 7 points.</li>
-    <li>One run per method can't tell methods apart. Even when one method was truly 5 to 9 points better, it won a single head-to-head only 60% to 74% of the time.</li>
-    <li>The system HGM builds on, the Darwin Gödel Machine, was caught gaming its own checks.</li>
-    <li>Terminal-RSI doesn't say whether its test tasks were kept separate from training.</li>
+<section id="track-c" aria-labelledby="c-h">
+  <h2 id="c-h">Track C: Check that improvements are real</h2>
+  <p>Self-improving systems grade themselves. Under pressure, they find ways to raise their scores without getting better. The Darwin Gödel Machine, which HGM builds on, was caught doing this.</p>
+  <h3>Findings from the simulation</h3>
+  <ul>
+    <li>The winning version's score overstated its true quality by 4 to 7 points.</li>
+    <li>A single run can't tell methods apart. A method truly 5 to 9 points better won only 60% to 74% of single head-to-head runs.</li>
   </ul>
-  <div class="steps" data-track="c">
-    <div class="steps-head"><h3>Steps</h3><span class="progress" data-progress="c"></span></div>
-    <div class="step"><input type="checkbox" id="c1" data-step="c"><label for="c1"><strong>Write the one-page checklist</strong><span>Separate test problems, repeated runs, a simple baseline to beat, and a grader the system can't change.</span></label></div>
-    <div class="step"><input type="checkbox" id="c2" data-step="c"><label for="c2"><strong>Apply it to Tracks A and B first</strong><span>The author's own results get checked before anyone else's.</span></label></div>
-    <div class="step"><input type="checkbox" id="c3" data-step="c"><label for="c3"><strong>Turn it into a small open-source tool</strong><span>It plugs into HGM, the Darwin Gödel Machine and OpenEvolve, locks test problems away, re-scores the final version on them, and reports a range instead of one number.</span></label></div>
-  </div>
-  <p class="needs"><strong>Needs:</strong> mostly time and care. Very little computing.</p>
+  <h3>Steps</h3>
+  <ul>
+    <li>Write a one-page checklist: hidden test problems, repeated runs, a simple baseline to beat, and a grader the system can't change.</li>
+    <li>Apply it to Tracks A and B.</li>
+    <li>Turn it into a small open-source tool that works with HGM, the Darwin Gödel Machine and OpenEvolve.</li>
+  </ul>
 </section>
 
 <section id="rules" aria-labelledby="rules-h">
   <h2 id="rules-h">Ground rules</h2>
-  <p>These make results believable. They also keep a self-improving loop something you can inspect. Claude will help with all three tracks on these terms.</p>
-  <ul class="rules">
-    <li><span>Keep test problems out of reach of the system being improved.</span></li>
-    <li><span>A person approves each change that gets kept, especially changes to weights.</span></li>
-    <li><span>Log every change so it can be reviewed and undone.</span></li>
-    <li><span>Run model-written code in a sandbox. HGM's own README warns about this.</span></li>
+  <ul>
+    <li>A person approves each change that is kept, especially changes to weights.</li>
+    <li>Every change is logged so it can be reviewed and undone.</li>
+    <li>AI-written code runs in a sandbox.</li>
   </ul>
 </section>
 
-<section id="details" aria-labelledby="details-h">
-  <h2 id="details-h">Details behind the findings</h2>
-  <h3>The HGM paper: what holds up</h3>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th scope="col">Paper's claim</th><th scope="col">What the author found</th></tr></thead>
-      <tbody>
-        <tr><td>HGM beats the Darwin Gödel Machine, 56.7% vs 53.3%</td><td>True as reported, but that is 34 vs 32 problems out of 60, from one run each.</td></tr>
-        <tr><td>Uses fewer computer hours</td><td>Plausible. Most likely from running tests in parallel and stopping early, not from the headline idea.</td></tr>
-        <tr><td>Its estimate predicts which versions will have good descendants (0.778 vs 0.285)</td><td>The simulation produced the same gap in a world where that kind of potential doesn't exist, so this test can't show it.</td></tr>
-        <tr><td>61.4% on full SWE-bench Verified</td><td>Measured on the same problems it was tuned on, so inflated. On new problems: 34.8% → 40.1%.</td></tr>
-        <tr><td>Human-level on SWE-bench Lite</td><td>Ties the best human-built agent, within 1 problem either way.</td></tr>
-        <tr><td>Approximates the optimal "Gödel Machine"</td><td>Only in a narrow theoretical setup. The practical version estimates something different.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>The HGM code</h3>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th scope="col">Version</th><th scope="col">Problem</th></tr></thead>
-      <tbody>
-        <tr><td class="num">current (013872d)</td><td><span class="mono">tree.py</span> returns a node's own results list and then appends to it, so each expansion overwrites that node's scores with its descendants' and the lists keep growing. Introduced by a cleanup commit on 24 Nov 2025, after the paper.</td></tr>
-        <tr><td class="num">first public (f3ca5f8)</td><td>Default config adds 10,000 copies of a node's own score, so choices follow its own score instead of its descendants'.</td></tr>
-        <tr><td class="num">both</td><td>The exploration schedule the paper says it used is off by default, and the final "best-belief" selection isn't in the released search code.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>The simulation</h3>
-  <p>Six made-up worlds, from "a version's descendant potential doesn't exist" to "strong hidden potential." Each world was run 400 times with the same budget as the paper. It's a simplified model, so treat the numbers as direction, not proof.</p>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th scope="col">World</th><th scope="col">Test a little at a time vs fixed batches</th><th scope="col">Judge by descendants vs own score</th></tr></thead>
-      <tbody>
-        <tr><td>No hidden potential</td><td class="num pos">+6.5 pts</td><td class="num neg">−1.8 pts</td></tr>
-        <tr><td>Potential passed down</td><td class="num pos">+7.5 pts</td><td class="num">−1.0 (unclear)</td></tr>
-        <tr><td>Potential costs current score</td><td class="num pos">+6.3 pts</td><td class="num">−1.0 (unclear)</td></tr>
-        <tr><td>Same, stronger tradeoff</td><td class="num pos">+11.0 pts</td><td class="num neg">−2.2 pts</td></tr>
-        <tr><td>Strong hidden potential, big payoff</td><td class="num pos">+4.4 pts</td><td class="num pos">+4.1 pts</td></tr>
-        <tr><td>Some gains are just luck</td><td class="num pos">+4.8 pts</td><td class="num">+0.4 (unclear)</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="muted" style="font-size:var(--step--1)">Points are percentage points of true quality for the final chosen version. "Unclear" means the difference was within the margin of error.</p>
-</section>
-
-<section id="glossary" aria-labelledby="glossary-h">
-  <h2 id="glossary-h">Glossary</h2>
-  <dl class="gloss">
-    <dt>Harness</dt><dd>The program around an AI model: its instructions, tools and step-by-step workflow.</dd>
-    <dt>Weights</dt><dd>The learned numbers inside a model. Changing them changes the model itself.</dd>
-    <dt>Open-weight model</dt><dd>A model whose weights are published, so anyone can download, run and change it.</dd>
-    <dt>HGM</dt><dd>Huxley–Gödel Machine. A method for deciding which version of a self-editing coding agent to improve next.</dd>
-    <dt>Benchmark</dt><dd>A fixed set of test problems used to score models, such as SWE-bench (fixing real code bugs) or MATH-500.</dd>
-    <dt>Held-out test</dt><dd>Problems kept away from the system during improvement, so a score on them shows real ability rather than memorization.</dd>
-    <dt>Fine-tuning / RL</dt><dd>Ways of training a model further. Reinforcement learning (RL) trains on trial and reward.</dd>
-    <dt>Gaming a test</dt><dd>Raising a score without getting better, for example by exploiting a flaw in how answers are checked.</dd>
-  </dl>
-</section>
-
-<section id="sources" aria-labelledby="sources-h">
-  <h2 id="sources-h">Sources</h2>
-  <ul class="sources">
-    <li><a href="https://arxiv.org/abs/2510.21614">Huxley–Gödel Machine paper (arXiv 2510.21614)</a> and <a href="https://github.com/metauto-ai/HGM">HGM code</a></li>
-    <li><a href="https://github.com/algorithmicsuperintelligence/openevolve">OpenEvolve</a></li>
-    <li><a href="https://rikiyat.github.io/blog/weight-space-programming/">Sparks of Weight-Space Programming</a>, with <a href="https://github.com/RikiyaT/lm_understand-logs">logs</a> and the <a href="https://huggingface.co/RikiyaT/Qwen3.5-0.8B-weight-space-programming">edited model</a></li>
-    <li><a href="https://jyyang26.github.io/terminal-rsi/">Terminal-RSI project page</a>, <a href="https://arxiv.org/abs/2610.22192">paper (arXiv 2610.22192)</a> and <a href="https://github.com/jyyang26/Terminal-RSI">code</a></li>
-  </ul>
-</section>
-
-</div>
-
-<script>
-(function () {
-  var KEY = "rsi-roadmap-steps-v1";
-  var state = {};
-  try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { state = {}; }
-  var boxes = Array.prototype.slice.call(document.querySelectorAll("input[data-step]"));
-  function update() {
-    ["a", "b", "c"].forEach(function (t) {
-      var mine = boxes.filter(function (b) { return b.dataset.step === t; });
-      var done = mine.filter(function (b) { return b.checked; }).length;
-      var el = document.querySelector('[data-progress="' + t + '"]');
-      if (el) el.textContent = done + " of " + mine.length + " done";
-    });
-  }
-  boxes.forEach(function (cb) {
-    if (state[cb.id]) cb.checked = true;
-    cb.addEventListener("change", function () {
-      state[cb.id] = cb.checked;
-      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
-      update();
-    });
-  });
-  update();
-})();
-</script>
+</main>
 </body>
 </html>
