@@ -208,7 +208,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
 <header class="hero">
   <span class="eyebrow">Research plan · updated 8 November 2026</span>
   <h1>RSI Contributions</h1>
-  <p class="lede">The goal: help AI get better at improving itself, through open-source work. This page collects what we found so far and lays out the next steps in plain language. There are three tracks, and they support each other.</p>
+  <p class="lede">The goal: help AI get better at improving itself, through open-source work. This page collects what the author has found so far and lays out the next steps in plain language. There are three tracks, and they support each other.</p>
   <nav class="jump" aria-label="Sections">
     <a href="#start">Start here</a><a href="#levels">Three levels</a><a href="#track-a">Track A · HGM</a><a href="#track-b">Track B · Weights</a><a href="#track-c">Track C · Checks</a><a href="#rules">Ground rules</a><a href="#details">Details</a><a href="#glossary">Glossary</a>
   </nav>
@@ -221,7 +221,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
     <ol>
       <li><div><span class="tag a">Track A</span><strong>Send the HGM bug report.</strong><span class="muted">Claude drafts it with the one-line fix. You review and submit it. About an hour.</span></div></li>
       <li><div><span class="tag b">Track B</span><strong>Reproduce the weight-editing result and run one cheap control.</strong><span class="muted">The edited model and logs are public. Runs on an ordinary computer, slowly. A few days.</span></div></li>
-      <li><div><span class="tag c">Track C</span><strong>Write a one-page "is this improvement real?" checklist.</strong><span class="muted">Use it on steps 1 and 2 before believing any result, including ours.</span></div></li>
+      <li><div><span class="tag c">Track C</span><strong>Write a one-page "is this improvement real?" checklist.</strong><span class="muted">Use it on steps 1 and 2 before believing any result, including the author's.</span></div></li>
     </ol>
   </div>
 </section>
@@ -291,7 +291,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
   <span class="tag a">Track A</span>
   <h2 id="a-h">Improve HGM</h2>
   <p>Harnesses are powerful. In the HGM paper, an evolved harness took the same model (GPT-5-mini) from 53.2% to 61.4% on the coding problems it was tuned on, and from 34.8% to 40.1% on new problems it had never seen.</p>
-  <h3>What we found</h3>
+  <h3>What the author found</h3>
   <ul class="findings">
     <li>The paper's wins over other methods come down to 1 or 2 problems, from one run of each method. That could easily be luck.</li>
     <li>The current public code has a bug. It overwrites each version's own scores with its descendants' scores, and those records keep growing until the program would likely run out of memory. The fix is one line.</li>
@@ -300,12 +300,12 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
   </ul>
   <div class="steps" data-track="a">
     <div class="steps-head"><h3>Steps</h3><span class="progress" data-progress="a"></span></div>
-    <div class="step"><input type="checkbox" id="a1" data-step="a"><label for="a1"><strong>Send the bug report and fix</strong><span>Claude drafts it. You submit it. Also ask the authors which settings produced the paper's numbers.</span></label></div>
+    <div class="step"><input type="checkbox" id="a1" data-step="a"><label for="a1"><strong>Send the bug report and fix</strong><span>Claude drafts it. You submit it. Also ask the HGM authors which settings produced the paper's numbers.</span></label></div>
     <div class="step"><input type="checkbox" id="a2" data-step="a"><label for="a2"><strong>Run the fair test nobody has run</strong><span>HGM's "judge by descendants" rule against "judge by own score," everything else the same, repeated several times. Open models keep the cost down.</span></label></div>
     <div class="step"><input type="checkbox" id="a3" data-step="a"><label for="a3"><strong>Carry the part that works into other tools</strong><span>Try test-a-little-at-a-time scoring in OpenEvolve, which currently tests in fixed pass/fail stages.</span></label></div>
     <div class="step"><input type="checkbox" id="a4" data-step="a"><label for="a4"><strong>Publish one large run in full detail</strong><span>Every version and every test result. Then anyone can compare methods without re-running expensive AI work.</span></label></div>
   </div>
-  <p class="needs"><strong>Needs:</strong> an AI API key or a self-hosted open model, Docker, and a budget for AI usage. The authors spent about $5,000 on all of their experiments combined.</p>
+  <p class="needs"><strong>Needs:</strong> an AI API key or a self-hosted open model, Docker, and a budget for AI usage. The HGM authors spent about $5,000 on all of their experiments combined.</p>
 </section>
 
 <section id="track-b" class="track b" aria-labelledby="b-h">
@@ -323,7 +323,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
         <div><span>GSM8K</span><span>13.8% → 67.1%</span></div>
         <div><span>IFEval</span><span>21.0% → 62.3%</span></div>
       </div>
-      <p class="caveat">Scored on benchmarks the editor never saw. Most of the gain came from stopping the model from looping: answers stuck at the length limit fell from 93% to 33%. On a second model, Gemma 3 270M, it couldn't improve anything. The authors call these very early results.</p>
+      <p class="caveat">Scored on benchmarks the editor never saw. Most of the gain came from stopping the model from looping: answers stuck at the length limit fell from 93% to 33%. On a second model, Gemma 3 270M, it couldn't improve anything. The post's authors call these very early results.</p>
     </article>
     <article class="study">
       <span class="eyebrow">Route 2 · Self-training</span>
@@ -355,7 +355,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
   <span class="tag c">Track C</span>
   <h2 id="c-h">Make sure improvements are real</h2>
   <p>Every self-improving system grades itself against tests. When it's pushed hard, it finds ways to score higher without getting better. Tracks A and B both need a grader that can't be fooled.</p>
-  <h3>What we found</h3>
+  <h3>What the author found</h3>
   <ul class="findings">
     <li>In the simulation, the winning version's score on the tests it was chosen with overstated its true quality by 4 to 7 points.</li>
     <li>One run per method can't tell methods apart. Even when one method was truly 5 to 9 points better, it won a single head-to-head only 60% to 74% of the time.</li>
@@ -365,14 +365,14 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
   <div class="steps" data-track="c">
     <div class="steps-head"><h3>Steps</h3><span class="progress" data-progress="c"></span></div>
     <div class="step"><input type="checkbox" id="c1" data-step="c"><label for="c1"><strong>Write the one-page checklist</strong><span>Separate test problems, repeated runs, a simple baseline to beat, and a grader the system can't change.</span></label></div>
-    <div class="step"><input type="checkbox" id="c2" data-step="c"><label for="c2"><strong>Apply it to Tracks A and B first</strong><span>Our own results get checked before anyone else's.</span></label></div>
+    <div class="step"><input type="checkbox" id="c2" data-step="c"><label for="c2"><strong>Apply it to Tracks A and B first</strong><span>The author's own results get checked before anyone else's.</span></label></div>
     <div class="step"><input type="checkbox" id="c3" data-step="c"><label for="c3"><strong>Turn it into a small open-source tool</strong><span>It plugs into HGM, the Darwin Gödel Machine and OpenEvolve, locks test problems away, re-scores the final version on them, and reports a range instead of one number.</span></label></div>
   </div>
   <p class="needs"><strong>Needs:</strong> mostly time and care. Very little computing.</p>
 </section>
 
 <section id="rules" aria-labelledby="rules-h">
-  <span class="eyebrow">How we work</span>
+  <span class="eyebrow">How the author works</span>
   <h2 id="rules-h">Ground rules</h2>
   <p>These make results believable. They also keep a self-improving loop something you can inspect. Claude will help with all three tracks on these terms.</p>
   <ul class="rules">
@@ -389,7 +389,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
   <h3>The HGM paper: what holds up</h3>
   <div class="table-wrap">
     <table>
-      <thead><tr><th scope="col">Paper's claim</th><th scope="col">What we found</th></tr></thead>
+      <thead><tr><th scope="col">Paper's claim</th><th scope="col">What the author found</th></tr></thead>
       <tbody>
         <tr><td>HGM beats the Darwin Gödel Machine, 56.7% vs 53.3%</td><td>True as reported, but that is 34 vs 32 problems out of 60, from one run each.</td></tr>
         <tr><td>Uses fewer computer hours</td><td>Plausible. Most likely from running tests in parallel and stopping early, not from the headline idea.</td></tr>
@@ -456,7 +456,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
   </ul>
 </section>
 
-<footer>Prepared with Claude on 8 November 2026. Your checked steps are saved in this browser only.</footer>
+<footer>Author: Claude (Opus 5.5), 8 November 2026. Your checked steps are saved in this browser only.</footer>
 </div>
 
 <script>
