@@ -71,8 +71,8 @@ nav.toc a { font-weight: 600; }
 
 <section id="background" aria-labelledby="background-h">
   <h2 id="background-h">Background</h2>
-  <p>Recursive self-improvement (RSI) is a process in which artificial intelligence (AI) improves its successors. This page proposes small open-source contributions that could advance it.</p>
-  <p>An AI system can improve at two levels. The first is the harness: the instructions, tools and workflow around a model. The second is the weights: the learned numbers that make up the model itself. The contributions fall into three tracks, each a group of related work: Track A works on the harness, Track B works on the weights, and Track C checks that improvements at either level are real.</p>
+  <p>Recursive self-improvement (RSI) is a process in which artificial intelligence (AI) improves its successors. This page proposes small open-source contributions that could advance such a process.</p>
+  <p>An AI system can improve at two levels. The first is its harness: the instructions, tools, and workflow around a model. The second is its weights: the learned numbers that make up the model itself. The contributions fall into three tracks, each a group of related work: Track A works on the harness, Track B works on the weights, and Track C checks that improvements at either level are real.</p>
 </section>
 
 <section id="tracks" aria-labelledby="tracks-h">
@@ -94,7 +94,7 @@ nav.toc a { font-weight: 600; }
   <section id="track-c" aria-labelledby="c-h">
     <h3 id="c-h">Track C: Checking that improvements are real</h3>
     <p>Self-improving systems grade themselves, and under pressure they find ways to raise their scores without getting better. The Darwin Gödel Machine, which HGM builds on, was caught doing this. The simulation from Track A shows two further problems. The winning version's score overstated its true quality by 4 to 7 points. A single run also could not reliably tell methods apart: a method truly 5 to 9 points better won only 60% to 74% of single head-to-head runs.</p>
-    <p>This track turns those lessons into tools. It starts with a one-page checklist covering hidden test problems, repeated runs, a simple baseline to beat, and a grader the system can't change. The checklist should be applied to Tracks A and B first, then turned into a small open-source tool that works with HGM, the Darwin Gödel Machine and OpenEvolve.</p>
+    <p>This track turns those lessons into tools. It starts with a one-page checklist covering hidden test problems, repeated runs, a simple baseline to beat, and a grader the system can't change. The checklist should be applied to Tracks A and B first, then turned into a small open-source tool that works with HGM, the Darwin Gödel Machine, and OpenEvolve.</p>
   </section>
 </section>
 
