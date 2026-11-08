@@ -30,21 +30,25 @@ body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f
   display: flex; flex-direction: column; gap: 48px;
 }
 header { display: flex; flex-direction: column; gap: 20px; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; margin: 0; text-wrap: balance; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; margin: 0; text-wrap: balance; }
 h1 { font-size: 2.6rem; letter-spacing: -0.02em; }
 h2 { font-size: 1.8rem; letter-spacing: -0.01em; }
-h3 { font-size: 1.15rem; margin-top: 8px; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.05rem; margin-top: 8px; }
 p, ul { margin: 0; max-width: 66ch; }
 ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 8px; }
 a { color: var(--accent); text-underline-offset: 2px; }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 section { display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 16px; }
+#tracks { gap: 40px; }
+#tracks > h2 { margin-bottom: -16px; }
 .muted { color: var(--muted); }
 nav.toc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
 nav.toc h2 { font-size: 1.3rem; }
 nav.toc ul { padding: 0; list-style: none; }
+nav.toc ul ul { padding-left: 1.2rem; margin-top: 8px; }
 nav.toc a { font-weight: 600; }
-@media (max-width: 560px) { h1 { font-size: 2.1rem; } h2 { font-size: 1.5rem; } nav.toc { padding: 16px; } }
+@media (max-width: 560px) { h1 { font-size: 2.1rem; } h2 { font-size: 1.5rem; } h3 { font-size: 1.25rem; } nav.toc { padding: 16px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
@@ -57,10 +61,13 @@ nav.toc a { font-weight: 600; }
     <h2 id="toc-h">Table of Contents</h2>
     <ul>
       <li><a href="#background">Background</a></li>
-      <li><a href="#track-a">Track A: Improve HGM</a></li>
-      <li><a href="#track-b">Track B: Let AI improve model weights</a></li>
-      <li><a href="#track-c">Track C: Check that improvements are real</a></li>
-      <li><a href="#rules">Ground rules</a></li>
+      <li><a href="#tracks">Tracks</a>
+        <ul>
+          <li><a href="#track-a">Track A: Improve HGM</a></li>
+          <li><a href="#track-b">Track B: Let AI improve model weights</a></li>
+          <li><a href="#track-c">Track C: Check that improvements are real</a></li>
+        </ul>
+      </li>
     </ul>
   </nav>
 </header>
@@ -75,65 +82,60 @@ nav.toc a { font-weight: 600; }
   <p>Track C checks that improvements at either level are real.</p>
 </section>
 
-<section id="track-a" aria-labelledby="a-h">
-  <h2 id="a-h">Track A: Improve HGM</h2>
-  <p><a href="https://arxiv.org/abs/2510.21614">HGM</a> (Huxley–Gödel Machine) is an <a href="https://github.com/metauto-ai/HGM">open-source system</a> in which an AI repeatedly rewrites its own coding harness.</p>
-  <h3>Findings</h3>
-  <ul>
-    <li>The current code has a bug that corrupts each version's scores and can exhaust memory. The fix is one line.</li>
-    <li>The paper's wins over other methods come down to 1 or 2 problems from single runs, which could be luck.</li>
-    <li>In a simplified simulation, most of HGM's benefit came from testing each version a few problems at a time. The paper's main idea, judging a version by its descendants, helped in only 1 of 6 scenarios.</li>
-  </ul>
-  <h3>Steps</h3>
-  <ul>
-    <li>Report the bug and fix to the HGM authors. It is <a href="https://github.com/jdrowne/HGM/issues/11">filed on a fork</a> but not yet sent to them.</li>
-    <li>Compare judging by descendants against judging by own score, with several runs of each.</li>
-    <li>Try testing a few problems at a time in <a href="https://github.com/algorithmicsuperintelligence/openevolve">OpenEvolve</a>, a similar open-source tool.</li>
-    <li>Publish every record from one full run, so others can compare methods without rerunning it.</li>
-  </ul>
-  <p class="muted">Needs: AI model access, Docker, and a budget. The HGM authors spent about $5,000 in total.</p>
-</section>
+<section id="tracks" aria-labelledby="tracks-h">
+  <h2 id="tracks-h">Tracks</h2>
 
-<section id="track-b" aria-labelledby="b-h">
-  <h2 id="b-h">Track B: Let AI improve model weights</h2>
-  <h3>Findings</h3>
-  <p>Two recent results show this can be cheap:</p>
-  <ul>
-    <li><a href="https://rikiyat.github.io/blog/weight-space-programming/">Weight-space programming</a> (MIT CSAIL, November 2026): a frontier AI directly edited 0.016% of the weights of a small open model, Qwen3.5-0.8B, with no training and no GPU. Its score on unseen math problems rose from 7.9% to 48.1%, mostly because the model stopped repeating itself. The same approach failed on a second model.</li>
-    <li><a href="https://jyyang26.github.io/terminal-rsi/">Terminal-RSI</a> (October 2026): a 27-billion-parameter open model trained itself on its own verified successes. Its score on a test of command-line tasks rose from 51.7% to 86.5%. This needs real training hardware, and the paper doesn't say whether test tasks were kept out of training.</li>
-  </ul>
-  <h3>Steps</h3>
-  <ul>
-    <li>Reproduce the editing result. The <a href="https://huggingface.co/RikiyaT/Qwen3.5-0.8B-weight-space-programming">edited model</a> and <a href="https://github.com/RikiyaT/lm_understand-logs">logs</a> are public, and it runs on an ordinary computer.</li>
-    <li>Check whether a setting that discourages repetition gives the same gain without editing any weights.</li>
-    <li>Try the method on another model and another skill.</li>
-    <li>Then have a model edit a copy of itself, once Track C is in place.</li>
-  </ul>
-</section>
+  <section id="track-a" aria-labelledby="a-h">
+    <h3 id="a-h">Track A: Improve HGM</h3>
+    <p><a href="https://arxiv.org/abs/2510.21614">HGM</a> (Huxley–Gödel Machine) is an <a href="https://github.com/metauto-ai/HGM">open-source system</a> in which an AI repeatedly rewrites its own coding harness.</p>
+    <h4>Findings</h4>
+    <ul>
+      <li>The current code has a bug that corrupts each version's scores and can exhaust memory. The fix is one line.</li>
+      <li>The paper's wins over other methods come down to 1 or 2 problems from single runs, which could be luck.</li>
+      <li>In a simplified simulation, most of HGM's benefit came from testing each version a few problems at a time. The paper's main idea, judging a version by its descendants, helped in only 1 of 6 scenarios.</li>
+    </ul>
+    <h4>Steps</h4>
+    <ul>
+      <li>Report the bug and fix to the HGM authors. It is <a href="https://github.com/jdrowne/HGM/issues/11">filed on a fork</a> but not yet sent to them.</li>
+      <li>Compare judging by descendants against judging by own score, with several runs of each.</li>
+      <li>Try testing a few problems at a time in <a href="https://github.com/algorithmicsuperintelligence/openevolve">OpenEvolve</a>, a similar open-source tool.</li>
+      <li>Publish every record from one full run, so others can compare methods without rerunning it.</li>
+    </ul>
+    <p class="muted">Needs: AI model access, Docker to sandbox the AI-written code, and a budget. The HGM authors spent about $5,000 in total.</p>
+  </section>
 
-<section id="track-c" aria-labelledby="c-h">
-  <h2 id="c-h">Track C: Check that improvements are real</h2>
-  <p>Self-improving systems grade themselves. Under pressure, they find ways to raise their scores without getting better. The Darwin Gödel Machine, which HGM builds on, was caught doing this.</p>
-  <h3>Findings from the simulation</h3>
-  <ul>
-    <li>The winning version's score overstated its true quality by 4 to 7 points.</li>
-    <li>A single run can't tell methods apart. A method truly 5 to 9 points better won only 60% to 74% of single head-to-head runs.</li>
-  </ul>
-  <h3>Steps</h3>
-  <ul>
-    <li>Write a one-page checklist: hidden test problems, repeated runs, a simple baseline to beat, and a grader the system can't change.</li>
-    <li>Apply it to Tracks A and B.</li>
-    <li>Turn it into a small open-source tool that works with HGM, the Darwin Gödel Machine and OpenEvolve.</li>
-  </ul>
-</section>
+  <section id="track-b" aria-labelledby="b-h">
+    <h3 id="b-h">Track B: Let AI improve model weights</h3>
+    <h4>Findings</h4>
+    <p>Two recent results show this can be cheap:</p>
+    <ul>
+      <li><a href="https://rikiyat.github.io/blog/weight-space-programming/">Weight-space programming</a> (MIT CSAIL, November 2026): a frontier AI directly edited 0.016% of the weights of a small open model, Qwen3.5-0.8B, with no training and no GPU. Its score on unseen math problems rose from 7.9% to 48.1%, mostly because the model stopped repeating itself. The same approach failed on a second model.</li>
+      <li><a href="https://jyyang26.github.io/terminal-rsi/">Terminal-RSI</a> (October 2026): a 27-billion-parameter open model trained itself on its own verified successes. Its score on a test of command-line tasks rose from 51.7% to 86.5%. This needs real training hardware, and the paper doesn't say whether test tasks were kept out of training.</li>
+    </ul>
+    <h4>Steps</h4>
+    <ul>
+      <li>Reproduce the editing result. The <a href="https://huggingface.co/RikiyaT/Qwen3.5-0.8B-weight-space-programming">edited model</a> and <a href="https://github.com/RikiyaT/lm_understand-logs">logs</a> are public, and it runs on an ordinary computer.</li>
+      <li>Check whether a setting that discourages repetition gives the same gain without editing any weights.</li>
+      <li>Try the method on another model and another skill.</li>
+      <li>Then have a model edit a copy of itself, once Track C is in place. A person approves each change it keeps, and every change is logged so it can be undone.</li>
+    </ul>
+  </section>
 
-<section id="rules" aria-labelledby="rules-h">
-  <h2 id="rules-h">Ground rules</h2>
-  <ul>
-    <li>A person approves each change that is kept, especially changes to weights.</li>
-    <li>Every change is logged so it can be reviewed and undone.</li>
-    <li>AI-written code runs in a sandbox.</li>
-  </ul>
+  <section id="track-c" aria-labelledby="c-h">
+    <h3 id="c-h">Track C: Check that improvements are real</h3>
+    <p>Self-improving systems grade themselves. Under pressure, they find ways to raise their scores without getting better. The Darwin Gödel Machine, which HGM builds on, was caught doing this.</p>
+    <h4>Findings from the simulation</h4>
+    <ul>
+      <li>The winning version's score overstated its true quality by 4 to 7 points.</li>
+      <li>A single run can't tell methods apart. A method truly 5 to 9 points better won only 60% to 74% of single head-to-head runs.</li>
+    </ul>
+    <h4>Steps</h4>
+    <ul>
+      <li>Write a one-page checklist: hidden test problems, repeated runs, a simple baseline to beat, and a grader the system can't change.</li>
+      <li>Apply it to Tracks A and B.</li>
+      <li>Turn it into a small open-source tool that works with HGM, the Darwin Gödel Machine and OpenEvolve.</li>
+    </ul>
+  </section>
 </section>
 
 </main>
