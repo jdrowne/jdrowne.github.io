@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Small open-source contributions toward AI improving itself: improving HGM, AI editing model weights, and checking that improvements are real.">
+<meta name="description" content="Small open-source contributions toward recursive self-improvement: letting AI improve harnesses, letting AI improve weights, and checking that improvements are real.">
 <title>RSI Contributions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,8 +60,8 @@ nav.toc a { font-weight: 600; }
       <li><a href="#background">Background</a></li>
       <li><a href="#tracks">Tracks</a>
         <ul>
-          <li><a href="#track-a">Track A: Improving HGM</a></li>
-          <li><a href="#track-b">Track B: Letting AI improve model weights</a></li>
+          <li><a href="#track-a">Track A: Letting AI improve harnesses</a></li>
+          <li><a href="#track-b">Track B: Letting AI improve weights</a></li>
           <li><a href="#track-c">Track C: Checking that improvements are real</a></li>
         </ul>
       </li>
@@ -72,20 +72,20 @@ nav.toc a { font-weight: 600; }
 <section id="background" aria-labelledby="background-h">
   <h2 id="background-h">Background</h2>
   <p>Recursive self-improvement (RSI) is a process in which artificial intelligence (AI) improves its successors. This page proposes small open-source contributions that could advance such a process.</p>
-  <p>An AI system can improve at two levels. The first is its harness: the instructions, tools, and workflow around a model. The second is its weights: the learned numbers that make up the model itself. The contributions fall into three tracks, each a group of related work: Track A works on the harness, Track B works on the weights, and Track C checks that improvements at either level are real.</p>
+  <p>An AI system can improve at two levels. The first is its harness: the instructions, tools, and workflow around a model. The second is its weights: the learned numbers that make up the model itself. The contributions fall into three tracks, each a group of related work: Track A is about letting AI improve harnesses, Track B about letting AI improve weights, and Track C about checking that improvements at either level are real.</p>
 </section>
 
 <section id="tracks" aria-labelledby="tracks-h">
   <h2 id="tracks-h">Tracks</h2>
 
   <section id="track-a" aria-labelledby="a-h">
-    <h3 id="a-h">Track A: Improving HGM</h3>
+    <h3 id="a-h">Track A: Letting AI improve harnesses</h3>
     <p><a href="https://arxiv.org/abs/2510.21614">HGM</a> (Huxley–Gödel Machine) is an <a href="https://github.com/metauto-ai/HGM">open-source system</a> in which an AI repeatedly rewrites its own coding harness, and both its code and its evidence have weaknesses. The released code has a bug that corrupts each version's scores and can exhaust memory, though the fix is one line. The paper's wins over other methods come down to one or two problems from a single run of each method, which could be luck. In a simplified simulation, most of HGM's benefit came from testing each version a few problems at a time. The paper's main idea, judging a version by its descendants, helped in only one of six scenarios.</p>
     <p>The work here starts by fixing and testing what already exists. The bug and its fix should go to the HGM authors; they are <a href="https://github.com/jdrowne/HGM/issues/11">filed on a fork</a> but not yet sent. Next comes the comparison the paper lacks: judging versions by their descendants against judging them by their own scores, with several runs of each. If testing a few problems at a time is what really helps, it should also be tried in <a href="https://github.com/algorithmicsuperintelligence/openevolve">OpenEvolve</a>, a similar open-source tool. Publishing every record from one full run would then let others compare methods without rerunning it. This track needs AI model access, Docker to sandbox the AI-written code, and a budget; the HGM authors spent about $5,000 in total.</p>
   </section>
 
   <section id="track-b" aria-labelledby="b-h">
-    <h3 id="b-h">Track B: Letting AI improve model weights</h3>
+    <h3 id="b-h">Track B: Letting AI improve weights</h3>
     <p>A recent result shows that AI can improve a model's weights cheaply. In <a href="https://rikiyat.github.io/blog/weight-space-programming/">weight-space programming</a> (MIT CSAIL, November 2026), a frontier AI directly edited 0.016% of the weights of a small open model, Qwen3.5-0.8B, with no training and no GPU. The edited model's score on unseen math problems rose from 7.9% to 48.1%, mostly because it stopped repeating itself. The same approach failed on a second model.</p>
     <p>Another result takes the more expensive route of training. In <a href="https://jyyang26.github.io/terminal-rsi/">Terminal-RSI</a> (October 2026), a 27-billion-parameter open model trained itself on its own verified successes and raised its score on a test of command-line tasks from 51.7% to 86.5%. This needs real training hardware, and the paper doesn't say whether test tasks were kept out of training.</p>
     <p>The cheapest place to start is reproducing the editing result, because the <a href="https://huggingface.co/RikiyaT/Qwen3.5-0.8B-weight-space-programming">edited model</a> and its <a href="https://github.com/RikiyaT/lm_understand-logs">logs</a> are public and it runs on an ordinary computer. A simple control comes next: checking whether a setting that discourages repetition gives the same gain without editing any weights. If the edit holds up, the method should be tried on another model and another skill. Only once Track C is in place should a model edit a copy of itself, with a person approving each change it keeps and every change logged so it can be undone.</p>
